@@ -20,9 +20,9 @@ def get_dead_for_condition():
 
 
 def get_random_false_stmt():
-    res = [random.choice(["True", "False"]) for x in range(10)]
-    res.append("False")
-    res_str = " and ".join(res)
+    res = [random.choice(["true", "false"]) for x in range(10)]
+    res.append("false")
+    res_str = " && ".join(res)
     return res_str
 
 
@@ -53,7 +53,7 @@ def get_random_type_name_and_value_statment():
     elif datatype == "short":
         var_value = get_random_int(-10000, 10000)
     elif datatype == "boolean":
-        var_value = random.choice(["True", "False"])
+        var_value = random.choice(["true", "false"])
     elif datatype == "char":
         var_value = str(random.choice(
             'a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z'.split(',')))
@@ -64,7 +64,7 @@ def get_random_type_name_and_value_statment():
     else:
         var_value = get_random_int(-1000000000, 1000000000)
 
-    mutant = str(var_name) + ' = ' + str(var_value)
+    mutant = str(datatype) + ' ' + str(var_name) + ' = ' + str(var_value)+";"
     return mutant
 
 
@@ -109,10 +109,12 @@ def format_code(c):
 def get_method_header(string):
     method_header = ''
     tree = get_tree(string)
+    # print("tree")
 
     tokens = list(javalang.tokenizer.tokenize(string))
-
+    # print(tokens)
     chunck_start_poss = [s.position.column for s in tree.body]
+    # print(chunck_start_poss)
     if len(chunck_start_poss) > 0:
         method_header = ' '.join([t.value for t in tokens
                                   if t.position.column < chunck_start_poss[0]])
@@ -128,12 +130,12 @@ def get_method_statement(string):
     chunck_start_poss = [s.position.column for s in tree.body]
 
     if len(chunck_start_poss) > 1:
+
         for idx, statement in enumerate(chunck_start_poss[:-1]):
             statment = ' '.join([t.value for t in tokens
                                  if t.position.column >= chunck_start_poss[idx]
                                  and t.position.column < chunck_start_poss[idx+1]])
             code_chuncks.append(statment)
-
         last_statment = ' '.join([t.value for t in tokens
                                   if t.position.column >= chunck_start_poss[-1]][:-1])
         code_chuncks.append(last_statment)
@@ -170,6 +172,7 @@ def get_local_vars(tree):
     var_list = []
     for path, node in tree.filter(javalang.tree.LocalVariableDeclaration):
         var_list.append([node.declarators[0].name, node.type.name])
+
     return var_list
 
 
@@ -181,25 +184,45 @@ def get_local_assignments(tree):
 
 
 def get_branch_if_else_mutant():
-    mutant = get_random_type_name_and_value_statment() + ' if '+get_random_false_stmt() + ' else ' + str(get_random_int(-1000000000, 1000000000))
+    mutant = 'if ('+get_random_false_stmt()+') {' + \
+        get_random_type_name_and_value_statment() + \
+        '}' + \
+        'else{' + \
+        get_random_type_name_and_value_statment() + \
+        '}'
     return mutant
 
 
 def get_branch_if_mutant():
-    mutant = 'if '+get_random_false_stmt()+': ' + \
-        get_random_type_name_and_value_statment()
+    mutant = 'if ('+get_random_false_stmt()+') {' + \
+        get_random_type_name_and_value_statment() + \
+        '}'
     return mutant
 
 
 def get_branch_while_mutant():
-    mutant = 'while '+get_random_false_stmt()+': ' + \
-        get_random_type_name_and_value_statment()
+    mutant = 'while ('+get_random_false_stmt()+') {' + \
+        get_random_type_name_and_value_statment() + \
+        '}'
     return mutant
 
 
 def get_branch_for_mutant():
-    var = get_radom_var_name()
-    mutant = 'for ' + var + ' in range(0): ' + get_random_type_name_and_value_statment()
+    dead_for_condition = get_dead_for_condition()
+    mutant = 'for  ('+dead_for_condition+') {' + \
+        get_random_type_name_and_value_statment() + \
+        '}'
     return mutant
 
-
+def get_branch_switch_mutant():
+    var_name = get_radom_var_name()
+    mutant = 'int ' + var_name+' = 0;' +\
+        'switch  ('+var_name+') {' + \
+        'case 1:' + \
+        get_random_type_name_and_value_statment() + \
+        'break;' +\
+        'default:' + \
+        get_random_type_name_and_value_statment() + \
+        'break;' +\
+        '}'
+    return mutant

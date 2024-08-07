@@ -25,8 +25,8 @@ device = "cuda:0"
 
 trial = ExecutionService(
 Executor(data_file_name,embedding_file_name, parameters,6,embedding_file_name_test=embedding_file_name_test,device=device,
-                    # only_refactored_file=only_refactored_file    #"weighted_refactored_new_loss_0_(comof3).csv"
-                    # ,aug_out_file_name=aug_out_file_name         #"weighted_new_loss_0_new_data_set_(comof3).csv",
+                    # only_refactored_file=    #"refactored_samples.csv",
+                    # aug_out_file_name=      #"original_samples_and_refactored_samples.csv",
                     weights=[0,0,0,0,0,0])
 )
 
@@ -43,7 +43,7 @@ to execute model with loss penalty:
 
 ```python
 select = ["java:S100","java:S1161","java:S1172","java:S119","java:S1452","java:S3776"] #This names are label classes.
-execution_time = 10
+execution_time = 10 #loop amount of training from the beginning
 trial.base_model_with_penalty_execution(execution_time=execution_time,select= select)
 
 ```
@@ -142,6 +142,8 @@ An example:
 # Modules for Customization
 
 **Augmentor**
+
+<hr/>
 This class contains all business logic of augmentation. All explanation of parameters is below
 
 -   **file_name:** Parameter is the designation of the dataset in the .csv format.
@@ -165,6 +167,9 @@ augmentor.run_augmenting_as_lcm()
 ```
 
 **CSVSeperator**
+
+<hr/>
+
 The class contains the separation of the data set into a training set and a test set. All explanations of the parameters are provided below:
 
 -   **file_name:** name of the dataset as .csv format
@@ -187,6 +192,9 @@ seperator.split_csv_as_percentage(percentage,
 -   shuffle: Parameter specifies whether the original data should be shuffled.
 
 **AugmentationUtils**
+
+<hr/>
+
 The class contains all class weight coefficient calculation logic for incremental augmentation process.All explanations of the parameters are provided below:
 
 -   **file_name:** name of the dataset as .csv format
@@ -210,6 +218,9 @@ print(coeffs)
 ```
 
 **Runner**
+
+<hr/>
+
 The class contains learning process.All explanations of the parameters are provided below:
 
 -   **label_path:** Parameter is the designation of the training dataset in the .csv format.

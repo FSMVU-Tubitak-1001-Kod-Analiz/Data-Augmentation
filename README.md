@@ -1,6 +1,6 @@
 # Data-Augmentation
 
-This repository has been constructed with the specific purpose of facilitating code data augmentation and this repository used in article named [article_name]. It serves as a centralised repository for a variety of refactoring techniques for training process, which are employed with the objective of enhancing the diversity and volume of code datasets. The method employed a weight factor to augment the data volume. In the learning process, the options provided were limited to the base model, the base model with loss penalty, and incremental augmentation, as detailed in the article.
+This repository has been constructed with the specific purpose of facilitating code data augmentation and this repository used in article named Analysis of the Effect of Code Augmentation Methods on Classification Performance. It serves as a centralised repository for a variety of refactoring techniques for training process, which are employed with the objective of enhancing the diversity and volume of code datasets. The method employed a weight factor to augment the data volume. In the learning process, the options provided were limited to the base model, the base model with loss penalty, and incremental augmentation, as detailed in the article.
 
 # Initialization
 
@@ -165,6 +165,7 @@ augmentor.run_augmenting_as_specified_weights()
 augmentor.run_augmenting_as_lcm()
 
 ```
+
 <hr/>
 
 **CSVSeperator**
@@ -218,6 +219,7 @@ coeffs= aug_util.get_coeff_list(smells_count, smells_increment, 2*step+1)
 print(coeffs)
 
 ```
+
 <hr/>
 
 **Runner**

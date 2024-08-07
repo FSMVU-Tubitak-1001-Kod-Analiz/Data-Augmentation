@@ -165,6 +165,7 @@ augmentor.run_augmenting_as_specified_weights()
 augmentor.run_augmenting_as_lcm()
 
 ```
+<hr/>
 
 **CSVSeperator**
 
@@ -190,6 +191,7 @@ seperator.split_csv_as_percentage(percentage,
 -   train_file_name: Paremeter designate the names of the new train samples
 -   test_file_name: Paremeter designate the names of the new test samples
 -   shuffle: Parameter specifies whether the original data should be shuffled.
+<hr/>
 
 **AugmentationUtils**
 
@@ -216,6 +218,7 @@ coeffs= aug_util.get_coeff_list(smells_count, smells_increment, 2*step+1)
 print(coeffs)
 
 ```
+<hr/>
 
 **Runner**
 
